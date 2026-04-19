@@ -28,79 +28,19 @@ Frontend
 * CSS
 * JavaScript
 
-Backend / Database
+Backend
 
-* Firebase Firestore
+* Flask
+
+* Database
+
+MongoDB
 
 Connectivity
 
 * Bluetooth API
 
 ---
-
-## 📂 Project Structure
-
-```
-Attendify
-│
-├── public
-│   ├── index.html
-│   ├── app.js
-│   └── style.css
-│
-├── firebase.json
-├── firestore.rules
-├── firestore.indexes.json
-├── package.json
-└── DEPLOYMENT_GUIDE.md
-```
-
----
-
-## ⚙️ How It Works
-
-1. The **teacher starts an attendance session**.
-2. Students nearby **connect through Bluetooth**.
-3. The system detects proximity and **marks attendance automatically**.
-4. The teacher can **view a list of students who marked attendance for that session**.
-5. Attendance data is stored in **Firebase Firestore**.
-
----
-
-
----
-
-## 🖥 Installation
-
-Clone the repository:
-
-```
-git clone https://github.com/PYNE-ANKUR/Attendify.git
-```
-
-Go to the project directory:
-
-```
-cd Attendify
-```
-
-Install dependencies:
-
-```
-npm install
-```
-
----
-
-## ☁️ Deployment
-
-This project is deployed using Firebase Hosting.
-
-```
-firebase login
-firebase init
-firebase deploy
-```
 
 ---
 
