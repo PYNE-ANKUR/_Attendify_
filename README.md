@@ -1,6 +1,6 @@
 # Attendify
 
-Attendify is a **Smart Student Attendance System** that allows teachers to mark and track student attendance using **Bluetooth-based proximity detection**. Instead of traditional manual attendance, students can automatically mark their presence when they are physically near the teacher’s device during a class session.
+Attendify is a **Smart Student Attendance System** that allows teachers to mark and track student attendance using **Bluetooth-based device key detection**. Instead of traditional manual attendance, students can automatically mark their presence when they are physically near the teacher’s device during a class session.
 
 This system helps reduce proxy attendance and saves valuable class time by automating the attendance process.
 
