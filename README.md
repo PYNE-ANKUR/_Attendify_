@@ -32,9 +32,9 @@ Backend
 
 * Flask
 
-* Database
+Database
 
-MongoDB
+* MongoDB
 
 Connectivity
 
