@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Attendance — Attendify</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card wide" style="margin: 40px auto; max-width: 580px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <span class="brand-name">My <span>Attendance</span></span>
+  </div>
+
+  <p class="page-title">Attendance Report</p>
+  <p class="page-sub">Enter your roll number to view subject-wise attendance percentage</p>
+
+  <div style="display:flex; gap:10px; align-items:flex-end;">
+    <div class="field" style="flex:1; margin-bottom:0;">
+      <label class="field-label">Roll Number</label>
+      <input id="roll" placeholder="e.g. STU2024001">
+    </div>
+    <button onclick="view()" style="width:auto; margin-top:0; height:40px; padding:0 18px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      View
+    </button>
+  </div>
+
+  <div id="results" style="margin-top:22px;"></div>
+
+</div>
+
+<script>
+async function view(){
+  const res = await fetch('/student-percentage/' + roll.value);
+  const data = await res.json();
+
+  if(!data.length){
+    document.getElementById('results').innerHTML = '<p style="text-align:center;color:var(--t4);padding:24px 0;font-size:0.88rem;">No attendance records found.</p>';
+    return;
+  }
+
+  document.getElementById('results').innerHTML = `
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th style="text-align:right;">Attendance</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${data.map(d => {
+          const pct = parseFloat(d.percentage);
+          const color = pct >= 75 ? 'pill-green' : pct >= 50 ? 'pill-blue' : 'pill-gray';
+          return `<tr>
+            <td style="font-weight:600; color:var(--t1);">${d.subject}</td>
+            <td style="text-align:right;"><span class="pill ${color}">${d.percentage}%</span></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+</script>
+
+</body>
+</html>

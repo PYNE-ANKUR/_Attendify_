@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card wide" style="margin-top:40px;">
+
+  <div class="view-top">
+    <span class="view-title">Subjects</span>
+    <span class="count-badge" id="count">Loading...</span>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Subject Name</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+
+</div>
+</div>
+
+<script>
+fetch('/get-subjects')
+.then(r=>r.json())
+.then(d=>{
+  document.getElementById('count').textContent = d.length + ' subjects';
+  document.getElementById('tbody').innerHTML = d.map((x,i)=>`
+    <tr>
+      <td style="color:var(--t4); font-size:0.82rem;">${i+1}</td>
+      <td style="font-weight:600; color:var(--t1);">${x.name}</td>
+    </tr>
+  `).join('') || '<tr><td colspan="2" style="text-align:center;padding:32px;color:var(--t4);">No subjects found</td></tr>';
+});
+</script>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Attendance — Attendify</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card" style="margin: 40px auto;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    </div>
+    <span class="brand-name">Mark <span>Attendance</span></span>
+  </div>
+
+  <p class="page-title">Mark Attendance</p>
+  <p class="page-sub">Enter your credentials and the session code provided by your teacher</p>
+
+  <div class="field">
+    <label class="field-label">Roll Number</label>
+    <input id="roll" placeholder="e.g. STU2024001">
+  </div>
+  <div class="field">
+    <label class="field-label">Password</label>
+    <input id="password" type="password" placeholder="Your password">
+  </div>
+  <div class="field">
+    <label class="field-label">Subject</label>
+    <input id="subject" placeholder="e.g. Mathematics">
+  </div>
+  <div class="field">
+    <label class="field-label">Session Code</label>
+    <input id="code" placeholder="4-digit code from teacher">
+  </div>
+
+  <button onclick="mark()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    Submit Attendance
+  </button>
+
+</div>
+
+<script>
+async function mark(){
+  let deviceKey = localStorage.getItem("deviceKey");
+  if(!deviceKey){ alert("Please register your device first."); return; }
+
+  try {
+    await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
+
+    const res = await fetch('/mark-attendance',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        roll: roll.value, password: password.value,
+        subject: subject.value, code: code.value, deviceKey
+      })
+    });
+
+    const data = await res.json();
+    alert(data.message || JSON.stringify(data));
+
+    roll.value=""; password.value=""; subject.value=""; code.value="";
+  } catch(e) {
+    alert("Bluetooth cancelled or unavailable.");
+  }
+}
+</script>
+
+</body>
+</html>

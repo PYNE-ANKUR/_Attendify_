@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card" style="margin-top:40px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    </div>
+    <span class="brand-name">Add <span>Teacher</span></span>
+  </div>
+
+  <p class="page-title">New Teacher</p>
+  <p class="page-sub">Create a teacher account with an ID and password</p>
+
+  <div class="field">
+    <label class="field-label">Teacher ID</label>
+    <input id="roll" placeholder="e.g. TCH001">
+  </div>
+  <div class="field">
+    <label class="field-label">Password</label>
+    <input id="pass" type="password" placeholder="Set a password">
+  </div>
+
+  <button onclick="add()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add Teacher
+  </button>
+
+</div>
+</div>
+
+<script>
+async function add(){
+  await fetch('/add-teacher',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ roll: roll.value, password: pass.value })
+  });
+  alert("Teacher added successfully.");
+  roll.value=""; pass.value="";
+}
+</script>

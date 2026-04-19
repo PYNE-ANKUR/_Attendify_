@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendify — Attendance Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card" style="margin: auto; margin-top: 40px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+    </div>
+    <span class="brand-name">Attend<span>ify</span></span>
+  </div>
+
+  <p class="page-title" style="font-size:1.5rem; margin-bottom:6px;">Welcome back</p>
+  <p class="page-sub">Select your role to sign in to the portal</p>
+
+  <div class="role-grid">
+
+    <div class="role-tile" onclick="go('/login?role=student')">
+      <div class="ri">
+        <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <span class="role-label">Student</span>
+      <span class="role-hint">View attendance & schedule</span>
+    </div>
+
+    <div class="role-tile" onclick="go('/login?role=teacher')">
+      <div class="ri">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <span class="role-label">Teacher</span>
+      <span class="role-hint">Mark & manage attendance</span>
+    </div>
+
+    <div class="role-tile" onclick="go('/login?role=admin')">
+      <div class="ri">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <span class="role-label">Admin</span>
+      <span class="role-hint">Manage all data & users</span>
+    </div>
+
+  </div>
+
+  <p style="text-align:center; margin-top:24px; font-size:0.78rem; color:var(--t4);">
+    Attendify &nbsp;&middot;&nbsp; Attendance Management System
+  </p>
+
+</div>
+
+<script>
+function go(path){ window.location.href = path; }
+</script>
+
+</body>
+</html>

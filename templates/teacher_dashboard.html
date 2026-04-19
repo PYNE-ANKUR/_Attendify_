@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card wide" style="margin-top:40px; max-width:560px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    </div>
+    <span class="brand-name">Attend<span>ify</span></span>
+  </div>
+
+  <p class="dash-title">Teacher Dashboard</p>
+  <p class="dash-sub" style="margin-bottom:20px;">Manage attendance sessions for your subjects</p>
+
+  <div class="action-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="action-tile c3" onclick="go('teacher_mark')">
+      <div class="at-ic">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
+      <span class="at-lbl">Start Session</span>
+    </div>
+    <div class="action-tile c1" onclick="go('teacher_view')">
+      <div class="at-ic">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <span class="at-lbl">View Attendance</span>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function go(p){ window.open("/"+p,"_blank"); }
+</script>

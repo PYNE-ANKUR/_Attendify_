@@ -1,0 +1,43 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card" style="margin-top:40px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <span class="brand-name">Add <span>Student</span></span>
+  </div>
+
+  <p class="page-title">New Student</p>
+  <p class="page-sub">Create a student account with roll number and password</p>
+
+  <div class="field">
+    <label class="field-label">Roll Number</label>
+    <input id="roll" placeholder="e.g. STU2024001">
+  </div>
+  <div class="field">
+    <label class="field-label">Password</label>
+    <input id="pass" type="password" placeholder="Set a password">
+  </div>
+
+  <button onclick="add()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add Student
+  </button>
+
+</div>
+</div>
+
+<script>
+async function add(){
+  await fetch('/add-student',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ roll: roll.value, password: pass.value })
+  });
+  alert("Student added successfully.");
+  roll.value=""; pass.value="";
+}
+</script>

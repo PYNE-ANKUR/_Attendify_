@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card" style="margin-top:40px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </div>
+    <span class="brand-name">Student <span>Panel</span></span>
+  </div>
+
+  <p class="page-title">Student Panel</p>
+  <p class="page-sub">Mark your attendance or check your subject-wise percentage</p>
+
+  <div class="assign-block">
+    <div class="assign-block-head">
+      <div class="assign-block-icon" style="background:#f0fdf4;">
+        <svg viewBox="0 0 24 24" stroke="#16a34a"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      </div>
+      <span class="assign-block-title">Mark Attendance</span>
+    </div>
+    <div class="field"><label class="field-label">Roll Number</label><input id="roll" placeholder="e.g. STU2024001"></div>
+    <div class="field"><label class="field-label">Password</label><input id="password" type="password" placeholder="Your password"></div>
+    <div class="field"><label class="field-label">Subject</label><input id="subject" placeholder="e.g. Mathematics"></div>
+    <div class="field"><label class="field-label">Session Code</label><input id="code" placeholder="4-digit code from teacher"></div>
+    <button onclick="mark()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Submit Attendance
+    </button>
+  </div>
+
+  <div class="assign-block">
+    <div class="assign-block-head">
+      <div class="assign-block-icon" style="background:#eff6ff;">
+        <svg viewBox="0 0 24 24" stroke="#3b82f6"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <span class="assign-block-title">View Percentage</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:flex-end;">
+      <div class="field" style="flex:1;margin-bottom:0;">
+        <label class="field-label">Roll Number</label>
+        <input id="vroll" placeholder="e.g. STU2024001">
+      </div>
+      <button onclick="view()" style="width:auto;margin-top:0;height:40px;padding:0 16px;">View</button>
+    </div>
+    <div id="out" style="margin-top:14px;"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+async function mark(){
+  let deviceKey = localStorage.getItem("deviceKey");
+  if(!deviceKey){
+    deviceKey = "dev-"+Math.random().toString(36).substr(2,9);
+    localStorage.setItem("deviceKey", deviceKey);
+  }
+  await navigator.bluetooth.requestDevice({acceptAllDevices:true});
+  await fetch('/mark-attendance',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ roll:roll.value, password:password.value, subject:subject.value, code:code.value, deviceKey })
+  });
+  alert("Attendance marked successfully.");
+  roll.value=""; password.value=""; subject.value=""; code.value="";
+}
+
+async function view(){
+  const res = await fetch('/student-percentage/'+vroll.value);
+  const data = await res.json();
+  if(!data.length){ document.getElementById('out').innerHTML='<p style="color:var(--t4);font-size:0.85rem;">No records found.</p>'; return; }
+  document.getElementById('out').innerHTML = `
+    <table class="data-table">
+      <thead><tr><th>Subject</th><th style="text-align:right;">Attendance</th></tr></thead>
+      <tbody>${data.map(d=>`<tr><td style="font-weight:600;">${d.subject}</td><td style="text-align:right;"><span class="pill pill-blue">${d.percentage}%</span></td></tr>`).join('')}</tbody>
+    </table>`;
+}
+</script>

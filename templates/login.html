@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="center">
+
+<div class="card">
+  <h2>Login</h2>
+
+  <input id="roll" placeholder="ID">
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const role = params.get("role");
+
+async function login(){
+
+  const res = await fetch('/login-user',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      roll: roll.value,
+      password: password.value
+    })
+  });
+
+  const d = await res.json();
+
+  if(!d.role){
+    alert("Invalid login");
+    return;
+  }
+
+  if(role && d.role !== role){
+    alert("Wrong role!");
+    return;
+  }
+
+  if(d.role==="teacher") window.location.href="/teacher";
+  if(d.role==="student") window.location.href="/student";
+  if(d.role==="admin") window.location.href="/admin";
+}
+</script>
+
+</body>
+</html>

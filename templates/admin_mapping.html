@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card wide" style="margin-top:40px;">
+
+  <div class="view-top">
+    <span class="view-title">Subject Mapping</span>
+    <span class="count-badge" id="count">Loading...</span>
+  </div>
+
+  <div id="list"></div>
+
+</div>
+</div>
+
+<script>
+fetch('/get-mapping')
+.then(r=>r.json())
+.then(d=>{
+  document.getElementById('count').textContent = d.length + ' subjects';
+  document.getElementById('list').innerHTML = d.map(x=>`
+    <div class="mapping-card">
+      <div class="mapping-name">${x.name}</div>
+      <div class="mapping-row">
+        <span class="mk">Teacher</span>
+        <span class="mv">${x.teacher ? `<span class="pill pill-blue">${x.teacher}</span>` : '<span style="color:var(--t4);">Not assigned</span>'}</span>
+      </div>
+      <div class="mapping-row" style="margin-top:6px;">
+        <span class="mk">Students</span>
+        <span class="mv">${x.students && x.students.length
+          ? x.students.map(s=>`<span class="pill pill-green" style="margin:2px 3px 2px 0;">${s}</span>`).join('')
+          : '<span style="color:var(--t4);">None enrolled</span>'
+        }</span>
+      </div>
+    </div>
+  `).join('') || '<p style="text-align:center;padding:32px;color:var(--t4);">No mappings found</p>';
+});
+</script>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Attendance — Attendify</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card wide" style="margin: 40px auto; max-width: 620px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <span class="brand-name">View <span>Attendance</span></span>
+  </div>
+
+  <p class="page-title">Attendance Report</p>
+  <p class="page-sub">View subject-wise attendance percentage for your students</p>
+
+  <div style="display:flex; gap:10px; align-items:flex-end; margin-bottom:22px;">
+    <div class="field" style="flex:1; margin-bottom:0;">
+      <label class="field-label">Subject</label>
+      <select id="subject"></select>
+    </div>
+    <button onclick="view()" style="width:auto; margin-top:0; height:40px; padding:0 18px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      View
+    </button>
+  </div>
+
+  <div id="results"></div>
+
+</div>
+
+<script>
+async function load(){
+  const res = await fetch('/my-subjects');
+  const d = await res.json();
+  subject.innerHTML = d.map(s=>`<option>${s.name}</option>`).join('');
+}
+load();
+
+async function view(){
+  const res = await fetch('/attendance-percentage/'+subject.value);
+  const d = await res.json();
+
+  if(!d.length){
+    document.getElementById('results').innerHTML = '<p style="text-align:center;color:var(--t4);padding:24px 0;font-size:0.88rem;">No attendance records found.</p>';
+    return;
+  }
+
+  document.getElementById('results').innerHTML = `
+    <div class="view-top">
+      <span class="view-title">${subject.value}</span>
+      <span class="count-badge">${d.length} students</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Roll Number</th>
+          <th style="text-align:right;">Attendance</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${d.map(x => {
+          const pct = parseFloat(x.percentage);
+          const cls = pct >= 75 ? 'pill-green' : pct >= 50 ? 'pill-blue' : 'pill-gray';
+          return `<tr>
+            <td><span class="pill pill-blue">${x.roll}</span></td>
+            <td style="text-align:right;"><span class="pill ${cls}">${x.percentage}%</span></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card" style="margin-top:40px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="#fff"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+    </div>
+    <span class="brand-name">Assign<span> Roles</span></span>
+  </div>
+
+  <p class="page-title">Assign</p>
+  <p class="page-sub">Link teachers and students to their subjects</p>
+
+  <div class="assign-block">
+    <div class="assign-block-head">
+      <div class="assign-block-icon" style="background:#eff6ff;">
+        <svg viewBox="0 0 24 24" stroke="#3b82f6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <span class="assign-block-title">Teacher &rarr; Subject</span>
+    </div>
+    <div class="field">
+      <label class="field-label">Teacher ID</label>
+      <input id="t" placeholder="e.g. TCH001">
+    </div>
+    <div class="field">
+      <label class="field-label">Subject Name</label>
+      <input id="s1" placeholder="e.g. Mathematics">
+    </div>
+    <button onclick="assignTeacher()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Assign Teacher
+    </button>
+  </div>
+
+  <div class="assign-block">
+    <div class="assign-block-head">
+      <div class="assign-block-icon" style="background:#f0fdf4;">
+        <svg viewBox="0 0 24 24" stroke="#16a34a"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <span class="assign-block-title">Student &rarr; Subject</span>
+    </div>
+    <div class="field">
+      <label class="field-label">Student Roll No.</label>
+      <input id="st" placeholder="e.g. STU2024001">
+    </div>
+    <div class="field">
+      <label class="field-label">Subject Name</label>
+      <input id="s2" placeholder="e.g. Mathematics">
+    </div>
+    <button onclick="assignStudent()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      Assign Student
+    </button>
+  </div>
+
+</div>
+</div>
+
+<script>
+async function assignTeacher(){
+  await fetch('/assign-subject',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ teacher: t.value, subject: s1.value })
+  });
+  alert("Teacher assigned successfully.");
+  t.value=""; s1.value="";
+}
+
+async function assignStudent(){
+  await fetch('/assign-student',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ roll: st.value, subject: s2.value })
+  });
+  alert("Student assigned successfully.");
+  st.value=""; s2.value="";
+}
+</script>

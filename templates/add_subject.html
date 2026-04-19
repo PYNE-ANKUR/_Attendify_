@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div class="center">
+<div class="card" style="margin-top:40px;">
+
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    </div>
+    <span class="brand-name">Add <span>Subject</span></span>
+  </div>
+
+  <p class="page-title">New Subject</p>
+  <p class="page-sub">Add a subject to the course catalogue</p>
+
+  <div class="field">
+    <label class="field-label">Subject Name</label>
+    <input id="sub" placeholder="e.g. Mathematics">
+  </div>
+
+  <button onclick="add()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add Subject
+  </button>
+
+</div>
+</div>
+
+<script>
+async function add(){
+  await fetch('/add-subject',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ name: sub.value })
+  });
+  alert("Subject added successfully.");
+  sub.value="";
+}
+</script>
