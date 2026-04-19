@@ -6,6 +6,10 @@ This system helps reduce proxy attendance and saves valuable class time by autom
 
 ---
 
+
+## Deployed Link 
+https://attendify-6qhj.onrender.com
+
 ## 🚀 Features
 
 * 📡 Bluetooth-based attendance detection
@@ -63,12 +67,6 @@ Attendify
 
 ---
 
-## 📅 Project Development Timeline
-
-The full development workflow, milestones, and task tracking for Attendify are maintained on Notion.
-
-Development Timeline:
-https://www.notion.so/ATTENDIFY-3221c1e305fa8009a8adf222aefe93c1
 
 ---
 
